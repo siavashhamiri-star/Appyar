@@ -1,0 +1,6 @@
+{
+  "name": "Apyar",
+  "description": "سیستم جامع مدیریت هوشمند ساختمان اپیار با طراحی دسترس‌پذیر، آرامش بصری، پالت عاج و زمرد، و موتور محاسبه شارژ",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

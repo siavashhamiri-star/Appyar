@@ -1,0 +1,19 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Android & Keystore Security
+local.properties
+!local.properties.example
+.gradle/
+*.jks
+*.keystore
+*.aab
+*.apk
+app/build/
+

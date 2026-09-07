@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">اپیار</string>
+    <string name="welcome_message">اپیار</string>
+    <string name="app_tagline">پلتفرم جامع مدیریت و دستیار اجرایی ساختمان</string>
+
+    <!-- Navigation & Titles -->
+    <string name="title_buildings">ساختمان‌ها</string>
+    <string name="title_building_detail">جزئیات ساختمان</string>
+    <string name="title_unit_detail">جزئیات واحد</string>
+    <string name="title_create_building">ثبت ساختمان جدید</string>
+    <string name="title_create_unit">افزودن واحد جدید</string>
+    <string name="title_create_person">تعریف شخص جدید</string>
+    <string name="title_assign_person">انتساب شخص به واحد</string>
+
+    <!-- Buildings Screen -->
+    <string name="search_buildings_placeholder">جستجوی نام یا آدرس ساختمان...</string>
+    <string name="empty_buildings">هنوز هیچ ساختمانی ثبت نشده است.</string>
+    <string name="btn_add_building">ساختمان جدید</string>
+    <string name="units_count_format">%1$d واحد</string>
+    <string name="label_active">فعال</string>
+    <string name="label_inactive">غیرفعال</string>
+
+    <!-- Building Details -->
+    <string name="building_name">نام ساختمان</string>
+    <string name="building_address">آدرس</string>
+    <string name="building_city">شهر</string>
+    <string name="building_postal_code">کد پستی</string>
+    <string name="building_units_header">واحدهای ساختمان</string>
+    <string name="empty_units">هیچ واحدی برای این ساختمان ثبت نشده است.</string>
+    <string name="btn_add_unit">افزودن واحد</string>
+
+    <!-- Unit Details -->
+    <string name="unit_number">شماره واحد</string>
+    <string name="unit_number_format">واحد %1$s</string>
+    <string name="unit_floor">طبقه</string>
+    <string name="unit_floor_format">طبقه %1$d</string>
+    <string name="unit_area">متراژ (متر مربع)</string>
+    <string name="unit_area_format">%1$.0f متر مربع</string>
+    <string name="unit_resident_count">تعداد ساکنین</string>
+    <string name="unit_resident_count_format">%1$d نفر</string>
+    <string name="unit_people_header">افراد مرتبط و تاریخچه سکونت</string>
+    <string name="empty_unit_people">هیچ شخصی به این واحد متصل نیست.</string>
+    <string name="btn_assign_person">انتساب شخص / ثبت سابقه</string>
+
+    <!-- Person & Relation -->
+    <string name="person_first_name">نام</string>
+    <string name="person_last_name">نام خانوادگی</string>
+    <string name="person_full_name">نام و نام خانوادگی</string>
+    <string name="person_mobile">شماره همراه</string>
+    <string name="person_email">ایمیل (اختیاری)</string>
+    <string name="relation_type">نوع ارتباط</string>
+    <string name="relation_owner">مالک</string>
+    <string name="relation_tenant">مستأجر</string>
+    <string name="relation_resident">ساکن</string>
+    <string name="relation_start_date">تاریخ شروع</string>
+    <string name="relation_end_date">تاریخ پایان (اختیاری)</string>
+    <string name="relation_current">ساکن / مالک فعلی</string>
+    <string name="relation_past">سابقه قبلی</string>
+
+    <!-- Form Actions & Dialogs -->
+    <string name="action_save">ذخیره</string>
+    <string name="action_cancel">انصراف</string>
+    <string name="action_confirm">تأیید</string>
+    <string name="action_back">بازگشت</string>
+    <string name="action_create">ایجاد</string>
+
+    <!-- Validation & Errors -->
+    <string name="error_field_required">این فیلد اجباری است</string>
+    <string name="error_duplicate_unit_number">واحدی با این شماره قبلاً در این ساختمان ثبت شده است.</string>
+    <string name="error_invalid_number">لطفاً یک عدد معتبر وارد کنید</string>
+    <string name="error_invalid_mobile">شماره همراه معتبر نیست</string>
+
+    <!-- Stage 4 Strings: Parking, Storage, Agreements -->
+    <string name="title_parking">مدیریت پارکینگ‌ها</string>
+    <string name="title_storage">مدیریت انباری‌ها</string>
+    <string name="title_agreements">توافقات خصوصی و اجاره</string>
+    <string name="btn_add_parking">افزودن پارکینگ</string>
+    <string name="btn_add_storage">افزودن انباری</string>
+    <string name="btn_add_agreement">ثبت توافق جدید</string>
+    <string name="empty_parking">هیچ پارکینگی ثبت نشده است.</string>
+    <string name="empty_storage">هیچ انباری ثبت نشده است.</string>
+    <string name="empty_agreements">هیچ توافق فعالی ثبت نشده است.</string>
+</resources>

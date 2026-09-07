@@ -1,0 +1,29 @@
+## =====================================================================
+## APYAR ANDROID CONFIGURATION TEMPLATE
+## =====================================================================
+## Copy this file to 'local.properties' for local development.
+##
+## SECURITY MANDATES:
+## 1. NEVER commit 'local.properties' or private .jks keystores to git.
+## 2. Real secret API keys must be retained on the backend proxy server.
+##    Client BuildConfig only exposes client endpoints and public IDs.
+## =====================================================================
+
+# Android SDK Path (Automatically set by Android Studio)
+# sdk.dir=/path/to/Android/sdk
+
+# API Endpoints Configuration
+# Production API (HTTPS mandatory in release)
+APYAR_API_URL=https://api.apyar.ir/v1
+# Development / Staging API (Used for debug builds)
+APYAR_DEV_API_URL=https://dev-api.apyar.ir/v1
+# Payment Gateway URL
+PAYMENT_GATEWAY_URL=https://gateway.apyar.ir/pay
+# Public Client ID
+APYAR_CLIENT_ID=com.apyar.app
+
+# Keystore Release Signing Configuration (Optional for debug, required for store publication)
+# KEYSTORE_PATH=keystore/release.jks
+# KEYSTORE_PASSWORD=your_keystore_password
+# KEY_ALIAS=apyar_release
+# KEY_PASSWORD=your_key_password
