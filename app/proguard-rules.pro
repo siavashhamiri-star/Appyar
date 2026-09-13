@@ -39,3 +39,13 @@
     @kotlinx.serialization.SerialName <fields>;
 }
 
+# -----------------------------------------------------------------------------
+# 6. CafeBazaar & Myket In-App Billing / Intent Interfaces
+# -----------------------------------------------------------------------------
+-keep class com.farsitel.bazaar.** { *; }
+-keep interface com.farsitel.bazaar.** { *; }
+-keep class ir.mservices.myket.** { *; }
+-keep interface ir.mservices.myket.** { *; }
+-keep class com.android.vending.billing.** { *; }
+
+

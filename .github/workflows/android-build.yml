@@ -78,24 +78,30 @@ jobs:
 
       - name: Build Android App Bundle (AAB)
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'aab' || github.event_name != 'workflow_dispatch' }}
-        run: ./gradlew bundleRelease --no-daemon
+        run: |
+          ./gradlew bundleBazaarRelease --no-daemon
+          ./gradlew bundleMyketRelease --no-daemon
+          ./gradlew bundleGoogleplayRelease --no-daemon
 
       - name: Build Release APK
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'apk' || github.event_name != 'workflow_dispatch' }}
-        run: ./gradlew assembleRelease --no-daemon
+        run: |
+          ./gradlew assembleBazaarRelease --no-daemon
+          ./gradlew assembleMyketRelease --no-daemon
+          ./gradlew assembleGoogleplayRelease --no-daemon
 
-      - name: Upload Release AAB Artifact
+      - name: Upload Release AAB Artifacts (Bazaar, Myket, Google Play)
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'aab' || github.event_name != 'workflow_dispatch' }}
         uses: actions/upload-artifact@v4
         with:
-          name: apyar-release-aab
-          path: app/build/outputs/bundle/release/*.aab
+          name: apyar-market-bundles-aab
+          path: app/build/outputs/bundle/**/*.aab
           retention-days: 14
 
-      - name: Upload Release APK Artifact
+      - name: Upload Release APK Artifacts (Bazaar, Myket, Google Play)
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'apk' || github.event_name != 'workflow_dispatch' }}
         uses: actions/upload-artifact@v4
         with:
-          name: apyar-release-apk
-          path: app/build/outputs/apk/release/*.apk
+          name: apyar-market-apks
+          path: app/build/outputs/apk/**/release/*.apk
           retention-days: 14

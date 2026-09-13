@@ -94,6 +94,25 @@ android {
         }
     }
 
+    flavorDimensions += "market"
+    productFlavors {
+        create("bazaar") {
+            dimension = "market"
+            manifestPlaceholders["marketName"] = "CafeBazaar"
+            buildConfigField("String", "MARKET_STORE", "\"bazaar\"")
+        }
+        create("myket") {
+            dimension = "market"
+            manifestPlaceholders["marketName"] = "Myket"
+            buildConfigField("String", "MARKET_STORE", "\"myket\"")
+        }
+        create("googleplay") {
+            dimension = "market"
+            manifestPlaceholders["marketName"] = "GooglePlay"
+            buildConfigField("String", "MARKET_STORE", "\"googleplay\"")
+        }
+    }
+
     // Android App Bundle (AAB) configuration
     bundle {
         language {
@@ -108,14 +127,16 @@ android {
         }
     }
 
-    // Automated naming for built APK artifacts
+    // Automated naming for built APK and AAB artifacts
     applicationVariants.all {
         val variant = this
         variant.outputs.all {
             val output = this as? com.android.build.gradle.internal.api.BaseVariantOutputImpl
+            val flavorName = variant.flavorName
             val buildTypeName = variant.buildType.name
             val versionName = variant.versionName
-            output?.outputFileName = "apyar-v${versionName}-${buildTypeName}.apk"
+            val targetMarket = if (flavorName.isNotEmpty()) "-${flavorName}" else ""
+            output?.outputFileName = "apyar-v${versionName}${targetMarket}-${buildTypeName}.apk"
         }
     }
 
@@ -194,11 +215,16 @@ tasks.register("printBuildInfo") {
         println(" - Payment Gateway URL      : $paymentGatewayUrl")
         println(" - Release Keystore Config  : " + if (isKeystoreConfigured) "CONFIGURED" else "FALLBACK TO DEBUG KEY")
         println(" - AAB Split Language       : DISABLED (Persian fa resources preserved)")
+        println(" - Available Flavors       : bazaar (کافه‌بازار), myket (مایکت), googleplay (گوگل‌پلی)")
         println("---------------------------------------------------------")
         println(" Commands:")
-        println("   * Build Release AAB : ./gradlew bundleRelease")
-        println("   * Build Release APK : ./gradlew assembleRelease")
-        println("   * Build Debug APK   : ./gradlew assembleDebug")
+        println("   * Build All Markets Release APK : ./gradlew assembleRelease")
+        println("   * Build Cafe Bazaar APK         : ./gradlew assembleBazaarRelease")
+        println("   * Build Myket APK               : ./gradlew assembleMyketRelease")
+        println("   * Build Cafe Bazaar AAB         : ./gradlew bundleBazaarRelease")
+        println("   * Build Myket AAB               : ./gradlew bundleMyketRelease")
+        println("   * Build Google Play AAB         : ./gradlew bundleGoogleplayRelease")
+        println("   * Build Debug APK               : ./gradlew assembleBazaarDebug")
         println("=========================================================")
     }
 }

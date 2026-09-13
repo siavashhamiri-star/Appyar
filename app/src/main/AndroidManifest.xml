@@ -4,6 +4,19 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!-- Queries for Iranian & International App Stores (Bazaar, Myket, Google Play) -->
+    <queries>
+        <!-- Cafe Bazaar intent package -->
+        <package android:name="com.farsitel.bazaar" />
+        <!-- Myket intent package -->
+        <package android:name="ir.mservices.myket" />
+        <!-- Web browsers for payment gateway and support links -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
     <application
         android:name=".ApyarApp"
         android:allowBackup="true"

@@ -43,6 +43,12 @@ object SecurityConfig {
         get() = BuildConfig.ENABLE_NETWORK_LOGS
 
     /**
+     * Target market store (bazaar, myket, googleplay)
+     */
+    val marketStore: String
+        get() = BuildConfig.MARKET_STORE
+
+    /**
      * Validates that all communication endpoints adhere to TLS/HTTPS security standards.
      * Throws [SecurityException] if an insecure HTTP endpoint is detected in production.
      */
