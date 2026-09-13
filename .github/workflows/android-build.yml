@@ -1,3 +1,10 @@
+      - name: Upload Release APK Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: apyar-release-apk
+          path: app/build/outputs/apk/**/release/*.apk
+          retention-days: 14
 name: Build Android Release
 
 on:
@@ -80,9 +87,7 @@ jobs:
           if [ ! -f "./gradlew" ]; then
             CMD="gradle"
           fi
-          $CMD bundleBazaarRelease --no-daemon
-          $CMD bundleMyketRelease --no-daemon
-          $CMD bundleGoogleplayRelease --no-daemon
+          $CMD bundleBazaarRelease bundleMyketRelease bundleGoogleplayRelease -x test -x lint --stacktrace --no-daemon
 
       - name: Build All Release APK
         run: |
@@ -90,9 +95,7 @@ jobs:
           if [ ! -f "./gradlew" ]; then
             CMD="gradle"
           fi
-          $CMD assembleBazaarRelease --no-daemon
-          $CMD assembleMyketRelease --no-daemon
-          $CMD assembleGoogleplayRelease --no-daemon
+          $CMD assembleBazaarRelease assembleMyketRelease assembleGoogleplayRelease -x test -x lint --stacktrace --no-daemon
 
       - name: Upload Release AAB Artifacts
         uses: actions/upload-artifact@v4
