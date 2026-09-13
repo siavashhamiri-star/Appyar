@@ -40,7 +40,7 @@ jobs:
         with:
           gradle-version: '8.11.1'
 
-      # ایجاد خودکار gradlew در صورت نبود و اعطای ایمن مجوز اجرا
+      # ایجاد خودکار gradlew در صورت نبود در مخزن و اعطای ایمن مجوز اجرا
       - name: Ensure Gradle Wrapper Exists and Has Execution Permission
         run: |
           if [ ! -f "gradlew" ]; then
@@ -102,7 +102,7 @@ jobs:
             gradle printBuildInfo --no-daemon
           fi
 
-      # ساخت بسته‌های AAB برای کافه‌بازار، مایکت و گوگل‌پلی
+      # ساخت بسته‌های AAB برای کافه‌بازار، مایکت و گوگل‌پلی همراه با لاگ جامع
       - name: Build Android App Bundle (AAB)
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'aab' || github.event_name != 'workflow_dispatch' }}
         run: |
@@ -114,7 +114,7 @@ jobs:
           $CMD bundleMyketRelease --stacktrace --no-daemon
           $CMD bundleGoogleplayRelease --stacktrace --no-daemon
 
-      # ساخت پکیج‌های نصبی APK برای کافه‌بازار، مایکت و گوگل‌پلی
+      # ساخت پکیج‌های نصبی APK برای کافه‌بازار، مایکت و گوگل‌پلی همراه با لاگ جامع
       - name: Build Release APK
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'apk' || github.event_name != 'workflow_dispatch' }}
         run: |
@@ -126,7 +126,7 @@ jobs:
           $CMD assembleMyketRelease --stacktrace --no-daemon
           $CMD assembleGoogleplayRelease --stacktrace --no-daemon
 
-      # بارگذاری بسته‌های AAB برای دانلود مستقیم
+      # بارگذاری بسته‌های AAB برای دانلود مستقیم از تب Artifacts
       - name: Upload Release AAB Artifacts (Bazaar, Myket, Google Play)
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'aab' || github.event_name != 'workflow_dispatch' }}
         uses: actions/upload-artifact@v4
@@ -135,7 +135,7 @@ jobs:
           path: app/build/outputs/bundle/**/*.aab
           retention-days: 14
 
-      # بارگذاری فایل‌های نصبی APK برای دانلود مستقیم
+      # بارگذاری فایل‌های نصبی APK برای دانلود مستقیم از تب Artifacts
       - name: Upload Release APK Artifacts (Bazaar, Myket, Google Play)
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'apk' || github.event_name != 'workflow_dispatch' }}
         uses: actions/upload-artifact@v4
