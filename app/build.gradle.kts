@@ -49,13 +49,6 @@ android {
         buildConfigField("String", "APYAR_API_URL", "\"$apyarApiUrl\"")
         buildConfigField("String", "PAYMENT_GATEWAY_URL", "\"$paymentGatewayUrl\"")
         buildConfigField("String", "CLIENT_ID", "\"$clientId\"")
-
-        // Room compiler configuration
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-            arg("room.incremental", "true")
-            arg("room.expandProjection", "true")
-        }
     }
 
     signingConfigs {
@@ -158,24 +151,13 @@ android {
         }
     }
 
-    // Automated naming for built APK and AAB artifacts
-    applicationVariants.configureEach {
-        val flavor = flavorName.takeIf { it.isNotEmpty() }?.let { "-$it" } ?: ""
-        val bType = buildType.name
-        val vName = versionName
-        outputs.configureEach {
-            try {
-                val outputImpl = this as? com.android.build.gradle.api.ApkVariantOutput
-                outputImpl?.outputFileName = "apyar-v${vName}${flavor}-${bType}.apk"
-            } catch (_: Exception) {
-                // Ignore if AGP variant output is immutable
-            }
-        }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
     }
 
     kotlinOptions {
