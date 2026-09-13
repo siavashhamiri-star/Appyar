@@ -110,9 +110,9 @@ jobs:
           if [ ! -f "./gradlew" ]; then
             CMD="gradle"
           fi
-          $CMD bundleBazaarRelease --no-daemon
-          $CMD bundleMyketRelease --no-daemon
-          $CMD bundleGoogleplayRelease --no-daemon
+          $CMD bundleBazaarRelease --stacktrace --no-daemon
+          $CMD bundleMyketRelease --stacktrace --no-daemon
+          $CMD bundleGoogleplayRelease --stacktrace --no-daemon
 
       # ساخت پکیج‌های نصبی APK برای کافه‌بازار، مایکت و گوگل‌پلی
       - name: Build Release APK
@@ -122,9 +122,9 @@ jobs:
           if [ ! -f "./gradlew" ]; then
             CMD="gradle"
           fi
-          $CMD assembleBazaarRelease --no-daemon
-          $CMD assembleMyketRelease --no-daemon
-          $CMD assembleGoogleplayRelease --no-daemon
+          $CMD assembleBazaarRelease --stacktrace --no-daemon
+          $CMD assembleMyketRelease --stacktrace --no-daemon
+          $CMD assembleGoogleplayRelease --stacktrace --no-daemon
 
       # بارگذاری بسته‌های AAB برای دانلود مستقیم
       - name: Upload Release AAB Artifacts (Bazaar, Myket, Google Play)

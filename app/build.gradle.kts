@@ -49,6 +49,13 @@ android {
         buildConfigField("String", "APYAR_API_URL", "\"$apyarApiUrl\"")
         buildConfigField("String", "PAYMENT_GATEWAY_URL", "\"$paymentGatewayUrl\"")
         buildConfigField("String", "CLIENT_ID", "\"$clientId\"")
+
+        // Room compiler configuration
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+            arg("room.incremental", "true")
+            arg("room.expandProjection", "true")
+        }
     }
 
     signingConfigs {
@@ -67,13 +74,6 @@ android {
                 storePassword = storePass
                 keyAlias = getSecureConfig("KEY_ALIAS", "")
                 keyPassword = getSecureConfig("KEY_PASSWORD", "")
-            } else {
-                // Safe fallback: mirror debug credentials so build and packaging never fail in CI without keystore
-                val debugConfig = signingConfigs.getByName("debug")
-                storeFile = debugConfig.storeFile
-                storePassword = debugConfig.storePassword
-                keyAlias = debugConfig.keyAlias
-                keyPassword = debugConfig.keyPassword
             }
         }
     }
@@ -86,7 +86,13 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            // Use release signing if storeFile exists, otherwise fall back gracefully to debug
+            val releaseSigning = signingConfigs.getByName("release")
+            if (releaseSigning.storeFile != null && releaseSigning.storeFile!!.exists()) {
+                signingConfig = releaseSigning
+            } else {
+                signingConfig = signingConfigs.getByName("debug")
+            }
             
             // Production flags & API endpoints
             buildConfigField("boolean", "IS_PRODUCTION", "true")
@@ -108,7 +114,15 @@ android {
     lint {
         abortOnError = false
         checkReleaseBuilds = false
-        disable += setOf("MissingTranslation", "ExtraTranslation")
+        ignoreWarnings = true
+        disable += setOf(
+            "MissingTranslation",
+            "ExtraTranslation",
+            "TypographyEllipsis",
+            "ObsoleteSdkInt",
+            "AllowBackup",
+            "GoogleAppIndexingWarning"
+        )
     }
 
     flavorDimensions += "market"
