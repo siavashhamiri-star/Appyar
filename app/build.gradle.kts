@@ -164,8 +164,12 @@ android {
         val bType = buildType.name
         val vName = versionName
         outputs.configureEach {
-            (this as? com.android.build.gradle.api.ApkVariantOutput)?.outputFileName =
-                "apyar-v${vName}${flavor}-${bType}.apk"
+            try {
+                val outputImpl = this as? com.android.build.gradle.api.ApkVariantOutput
+                outputImpl?.outputFileName = "apyar-v${vName}${flavor}-${bType}.apk"
+            } catch (_: Exception) {
+                // Ignore if AGP variant output is immutable
+            }
         }
     }
 
