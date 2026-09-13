@@ -33,11 +33,21 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
 
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x gradlew
+      # نصب گرادول رسمی جهت جلوگیری از خطای نبود gradlew
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
+      # ایجاد خودکار gradlew در صورت نبود در مخزن و اعطای دسترسی اجرا
+      - name: Ensure Gradle Wrapper Exists and Has Execution Permission
+        run: |
+          if [ ! -f "gradlew" ]; then
+            echo "gradlew not found. Generating gradle wrapper using installed gradle..."
+            gradle wrapper --gradle-version 8.11.1
+          fi
+          chmod +x gradlew
+
+      # بازگشایی کلید Keystore در صورت تعریف در سکرت‌های گیت‌هاب
       - name: Prepare Keystore File (If provided in Secrets)
         id: keystore
         env:
@@ -53,6 +63,7 @@ jobs:
             echo "No custom keystore provided. Fallback to debug signature."
           fi
 
+      # تزریق امن متغیرها و آدرس‌های امن API
       - name: Inject Secure Environment Variables
         env:
           APYAR_API_URL: ${{ secrets.APYAR_API_URL || 'https://api.apyar.ir/v1' }}
@@ -70,12 +81,14 @@ jobs:
           KEY_PASSWORD=$KEY_PASSWORD
           EOF
 
+      # اعتبارسنجی اتصال امن HTTPS
       - name: Verify Security Configuration
         run: ./gradlew verifyReleaseSecurity --no-daemon
 
       - name: Print Build Configuration Info
         run: ./gradlew printBuildInfo --no-daemon
 
+      # ساخت بسته‌های AAB برای کافه‌بازار، مایکت و گوگل‌پلی
       - name: Build Android App Bundle (AAB)
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'aab' || github.event_name != 'workflow_dispatch' }}
         run: |
@@ -83,6 +96,7 @@ jobs:
           ./gradlew bundleMyketRelease --no-daemon
           ./gradlew bundleGoogleplayRelease --no-daemon
 
+      # ساخت پکیج‌های نصبی APK برای کافه‌بازار، مایکت و گوگل‌پلی
       - name: Build Release APK
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'apk' || github.event_name != 'workflow_dispatch' }}
         run: |
@@ -90,6 +104,7 @@ jobs:
           ./gradlew assembleMyketRelease --no-daemon
           ./gradlew assembleGoogleplayRelease --no-daemon
 
+      # بارگذاری بسته‌های AAB برای دانلود مستقیم
       - name: Upload Release AAB Artifacts (Bazaar, Myket, Google Play)
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'aab' || github.event_name != 'workflow_dispatch' }}
         uses: actions/upload-artifact@v4
@@ -98,6 +113,7 @@ jobs:
           path: app/build/outputs/bundle/**/*.aab
           retention-days: 14
 
+      # بارگذاری فایل‌های نصبی APK برای دانلود مستقیم
       - name: Upload Release APK Artifacts (Bazaar, Myket, Google Play)
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'apk' || github.event_name != 'workflow_dispatch' }}
         uses: actions/upload-artifact@v4
