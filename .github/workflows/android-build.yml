@@ -37,6 +37,8 @@ jobs:
       # نصب گرادول رسمی جهت جلوگیری از خطای نبود gradlew
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.11.1'
 
       # ایجاد خودکار gradlew در صورت نبود در مخزن و اعطای دسترسی اجرا
       - name: Ensure Gradle Wrapper Exists and Has Execution Permission
@@ -45,7 +47,9 @@ jobs:
             echo "gradlew not found. Generating gradle wrapper using installed gradle..."
             gradle wrapper --gradle-version 8.11.1
           fi
-          chmod +x gradlew
+          if [ -f "gradlew" ]; then
+            chmod +x gradlew
+          fi
 
       # بازگشایی کلید Keystore در صورت تعریف در سکرت‌های گیت‌هاب
       - name: Prepare Keystore File (If provided in Secrets)
@@ -83,26 +87,44 @@ jobs:
 
       # اعتبارسنجی اتصال امن HTTPS
       - name: Verify Security Configuration
-        run: ./gradlew verifyReleaseSecurity --no-daemon
+        run: |
+          if [ -f "./gradlew" ]; then
+            ./gradlew verifyReleaseSecurity --no-daemon
+          else
+            gradle verifyReleaseSecurity --no-daemon
+          fi
 
       - name: Print Build Configuration Info
-        run: ./gradlew printBuildInfo --no-daemon
+        run: |
+          if [ -f "./gradlew" ]; then
+            ./gradlew printBuildInfo --no-daemon
+          else
+            gradle printBuildInfo --no-daemon
+          fi
 
       # ساخت بسته‌های AAB برای کافه‌بازار، مایکت و گوگل‌پلی
       - name: Build Android App Bundle (AAB)
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'aab' || github.event_name != 'workflow_dispatch' }}
         run: |
-          ./gradlew bundleBazaarRelease --no-daemon
-          ./gradlew bundleMyketRelease --no-daemon
-          ./gradlew bundleGoogleplayRelease --no-daemon
+          CMD="./gradlew"
+          if [ ! -f "./gradlew" ]; then
+            CMD="gradle"
+          fi
+          $CMD bundleBazaarRelease --no-daemon
+          $CMD bundleMyketRelease --no-daemon
+          $CMD bundleGoogleplayRelease --no-daemon
 
       # ساخت پکیج‌های نصبی APK برای کافه‌بازار، مایکت و گوگل‌پلی
       - name: Build Release APK
         if: ${{ github.event.inputs.build_type == 'both' || github.event.inputs.build_type == 'apk' || github.event_name != 'workflow_dispatch' }}
         run: |
-          ./gradlew assembleBazaarRelease --no-daemon
-          ./gradlew assembleMyketRelease --no-daemon
-          ./gradlew assembleGoogleplayRelease --no-daemon
+          CMD="./gradlew"
+          if [ ! -f "./gradlew" ]; then
+            CMD="gradle"
+          fi
+          $CMD assembleBazaarRelease --no-daemon
+          $CMD assembleMyketRelease --no-daemon
+          $CMD assembleGoogleplayRelease --no-daemon
 
       # بارگذاری بسته‌های AAB برای دانلود مستقیم
       - name: Upload Release AAB Artifacts (Bazaar, Myket, Google Play)
