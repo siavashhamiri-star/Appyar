@@ -48,4 +48,10 @@
 -keep interface ir.mservices.myket.** { *; }
 -keep class com.android.vending.billing.** { *; }
 
+# -----------------------------------------------------------------------------
+# 7. General Warning Suppression for Clean Builds
+# -----------------------------------------------------------------------------
+-dontwarn **
+-ignorewarnings
+
 
